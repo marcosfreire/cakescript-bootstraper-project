@@ -11,13 +11,7 @@ Teardown(context =>
     projectInfo.Paths.RemoveDirectories(Context);
 });
 
-#load "./build-scripts/Tasks/EchoTask.cake";
-#load "./build-scripts/Models/ProjectInfo.cake";
-#load "./build-scripts/Tasks/NugetTasks.cake";
-#load "./build-scripts/Tasks/SonarTasks.cake";
-#load "./build-scripts/Tasks/BuildTask.cake";
-#load "./build-scripts/Tasks/XUnitTasks.cake";
-#load "./build-scripts/Tasks/ZipTask.cake";
+#load "nuget:http://nexus.zarp.tech/repository/nuget-hosted?package=Zarp.DotNet.FullFramework.BuildScripts&version=1.0.1"
 
 Task("Default")
     .IsDependentOn("echo")
