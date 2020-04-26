@@ -9,7 +9,7 @@ Task("run-tests").Does(() =>
                 new XUnit2Settings {
                     ShadowCopy = false,
                     XmlReport = true,
-                    OutputDirectory = projectInfo.Paths.OpencoverOutputDirectory.ToString()
+                    OutputDirectory = projectInfo.Paths.TestResults.ToString()
             });
         },
         projectInfo.Paths.OpencoverResultFile,
