@@ -22,6 +22,8 @@ public class PathsInfo
           
           ConfigureDirectoriesToClean(context);
           EnsureDirectoryExists(context);
+
+          SetSonarqubeCoverageExclusions(context);
      }
 
      public void RemoveDirectories(ICakeContext context)
@@ -55,13 +57,13 @@ public class PathsInfo
         context.EnsureDirectoryExists(OpencoverOutputDirectory);
     }
 
-    private string GetSonarqubeCoverageExclusions(ICakeContext context)
+    private void SetSonarqubeCoverageExclusions(ICakeContext context)
     {
         const string SONAR_COVERAGE_EXCLUSION_PATH = "./.sonar.coverage.exclusions";
 
         var addSonarCoverageExclusions = context.FileExists(SONAR_COVERAGE_EXCLUSION_PATH);
 
-        if(!addSonarCoverageExclusions) return "";
+        if(!addSonarCoverageExclusions) return ;
 
         var exclusions = new StringBuilder();
 
@@ -73,6 +75,6 @@ public class PathsInfo
             exclusions.AppendFormat("{0},", exclusion.Trim());
         }
 
-        return exclusions.ToString(0, exclusions.Length - 1);
+        SonarCoverageExclusionFiles = exclusions.ToString(0, exclusions.Length - 1);
     }
 }

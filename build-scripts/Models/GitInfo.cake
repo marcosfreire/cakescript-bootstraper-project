@@ -10,8 +10,7 @@ public class GitInfo
     public string CommitAuthor{get;private set;}
 
     public string RepoUrl {get;private set;}
-    public string ActionType{get;private set;}    
-    public string MergeRequestId{get;private set;}
+    public string ActionType{get;private set;}
 
     public GitInfo(ICakeContext context, BuildSystem buildSystem)
     {
@@ -25,6 +24,5 @@ public class GitInfo
         CommitId = context.EnvironmentVariable("GIT_COMMIT") ?? "";
         CommitAuthor = context.EnvironmentVariable("gitlabUserName") ?? "";
         RepoUrl = context.EnvironmentVariable("gitlabSourceRepoHomepage") ?? "";
-        MergeRequestId = context.EnvironmentVariable("gitlabMergeRequestIid") ?? "";
     }
 }

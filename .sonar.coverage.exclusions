@@ -1,0 +1,13 @@
+*.cshtml
+*.config
+*.js
+*.css
+App_Start/*
+Controllers/*
+Content*
+fonts/*
+Global.asax.cs
+Views/*
+Maxi.Repository/*
+Maxi.Identity/*
+Maxi.Ioc.Startup/*

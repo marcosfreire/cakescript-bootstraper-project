@@ -21,12 +21,12 @@ Teardown(context =>
 
 Task("Default")
     .IsDependentOn("echo")
-    .IsDependentOn("restore-packages")
+    //.IsDependentOn("restore-packages")
     .IsDependentOn("sonar-begin")
-    .IsDependentOn("build")
-    .IsDependentOn("run-tests")
-    .IsDependentOn("sonar-end")
-    .IsDependentOn("zip-artifacts")
+    // .IsDependentOn("build")
+    // .IsDependentOn("run-tests")
+    // .IsDependentOn("sonar-end")
+    // .IsDependentOn("zip-artifacts")
     .Does (() => {});
 
 RunTarget(projectInfo.Target);
