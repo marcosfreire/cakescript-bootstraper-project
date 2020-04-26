@@ -1,13 +1,11 @@
-Task("sonar-begin").WithCriteria(projectInfo.CurrentBuild.IsRunningOnJenkins)
-.Does(() =>
+Task("sonar-begin").WithCriteria(projectInfo.CurrentBuild.IsRunningOnJenkins).Does(() =>
 {
     var arguments = new ProcessArgumentBuilder()
         .Append("begin")
         .Append($"/key:{projectInfo.ProjectName} /name:{projectInfo.ProjectName} /version:{projectInfo.CurrentBuild.Version}")        
         .Append($"/d:sonar.analysis.projeto=\"{projectInfo.ProjectName}\"")
         .Append($"/d:sonar.analysis.user=\"{projectInfo.GitLab.CommitAuthor}\"")
-        //.Append($"/d:sonar.cs.opencover.reportsPaths={projectInfo.Paths.OpencoverOutputDirectory}")
-        .Append($"/d:sonar.cs.xunit.reportsPaths={projectInfo.Paths.OpencoverOutputDirectory}");
+        .Append($"/d:sonar.cs.opencover.reportsPaths={projectInfo.Paths.OpencoverResultFile}");
 
     AddSonarCoverageExclusionFiles(arguments,projectInfo);
 
