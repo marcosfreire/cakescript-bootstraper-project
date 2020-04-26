@@ -6,7 +6,9 @@
 
 public class ProjectInfo
 {
+    [Newtonsoft.Json.JsonIgnore]
     public string Target { get; private set; }
+    
     public string ProjectName { get; private set; }
     public string SolutionName { get; private set; }
     
@@ -18,18 +20,7 @@ public class ProjectInfo
 
     [Newtonsoft.Json.JsonIgnore]
     public PathsInfo Paths{get;private set;}
-       
-    [Newtonsoft.Json.JsonIgnore]   
-    public bool CanUploadArtifactsToNexus
-    {
-        get
-        {
-            if(CurrentBuild == null || GitLab == null) return false;
-
-            return CurrentBuild.IsRunningOnJenkins && ( GitLab.IsMasterBranch || GitLab.IsReleaseBranch );
-        }
-    }
-
+    
     public ProjectInfo(ICakeContext context,BuildSystem buildSystem , string solutionName)
     {
         ValidateParameters(context,buildSystem , solutionName);
@@ -37,9 +28,9 @@ public class ProjectInfo
         SolutionName = solutionName;
         
         Target = context.Argument("target", "Default");
-        ProjectName = buildSystem.AppVeyor.Environment.Project.Name;
+        ProjectName = context.EnvironmentVariable("gitlabSourceRepoName") ?? "";
         
-        GitLab = new GitInfo(buildSystem);
+        GitLab = new GitInfo(context,buildSystem);
         Sonar = new SonarInfo(context,buildSystem);
         Paths = new PathsInfo(context,buildSystem);
         CurrentBuild = new BuildInfo(context,buildSystem);
@@ -66,5 +57,16 @@ public class ProjectInfo
         {
             throw new NotImplementedException("Only on Windows.");
         }
-    }    
+    } 
+
+    [Newtonsoft.Json.JsonIgnore]   
+    public bool CanUploadArtifactsToNexus
+    {
+        get
+        {
+            if(CurrentBuild == null || GitLab == null) return false;
+
+            return CurrentBuild.IsRunningOnJenkins && ( GitLab.IsMasterBranch || GitLab.IsReleaseBranch );
+        }
+    }
 }

@@ -17,35 +17,35 @@ public class PathsInfo
           PublishTo = context.MakeAbsolute((DirectoryPath)(context.Directory("./publish")));
           Artifact = context.MakeAbsolute((DirectoryPath)(context.Directory("./artifact")));
           TestResults = context.MakeAbsolute((DirectoryPath)(context.Directory("./test-results")));
-          OpencoverOutputDirectory = context.MakeAbsolute((DirectoryPath)(context.Directory("./opencover-results")));
+          OpencoverOutputDirectory = context.MakeAbsolute((DirectoryPath)(context.Directory("./opencover-results")));          
           OpencoverResultFile = OpencoverOutputDirectory.CombineWithFilePath("result.xml");
           
-          SonarCoverageExclusionFiles = GetSonarqubeCoverageExclusions(context);
-
           ConfigureDirectoriesToClean(context);
           EnsureDirectoryExists(context);
      }
 
      public void RemoveDirectories(ICakeContext context)
      {
-        var recursive = true;
-        context.Information("Delering directory ..." + PublishTo.ToString());
-        context.DeleteDirectory(PublishTo,recursive);
-
-        context.Information("Delering directory ..." + Artifact.ToString());
+        var recursive = true;        
+        context.DeleteDirectory(PublishTo,recursive);        
         context.DeleteDirectory(Artifact,recursive);
-
-        context.Information("Delering directory ..." + OpencoverOutputDirectory.ToString());
         context.DeleteDirectory(OpencoverOutputDirectory,recursive);
      }
 
      private void ConfigureDirectoriesToClean(ICakeContext context)
      {
-        ToClean = new DirectoryPathCollection();
+        ToClean = new DirectoryPathCollection(new[] {
+                    PublishTo,
+                    Artifact,
+                    TestResults,
+                    OpencoverOutputDirectory
+                }, PathComparer.Default);
 
         ToClean.Add(context.GetDirectories("./**/bin"));
         ToClean.Add(context.GetDirectories("./**/packages"));
         ToClean.Add(context.GetDirectories("./**/obj"));
+        ToClean.Add(context.GetDirectories("./**/obj"));
+        ToClean.Add(context.GetDirectories("./**/.sonarqube"));                
     }
 
     private void EnsureDirectoryExists(ICakeContext context)

@@ -11,7 +11,10 @@ public class BuildInfo
     public string SemVersion { get;  private set; }
     public string BuildNumber { get;  private set; }
     public string Configuration {get;private set;}
-    
+
+    public string TimeStamp{get;set;}
+    public string JobUrl{get;private set;}
+        
     public BuildInfo(ICakeContext context,BuildSystem buildSystem)
     {
         IsLocalBuild = buildSystem.IsLocalBuild;
@@ -20,6 +23,9 @@ public class BuildInfo
         
         Configuration = context.Argument("configuration", "Release");
 
+        JobUrl = context.EnvironmentVariable("BUILD_URL") ?? "";
+        TimeStamp = context.EnvironmentVariable("BUILD_TIMESTAMP") ?? "";
+        
         SetCurrentBuildVersions(context,buildSystem);
         SetPublishProfile(context);
     }
@@ -113,10 +119,12 @@ public class BuildInfo
     private string ReadSolutionInfoVersion(ICakeContext context, string assemblyInfoPath)
     {
         var solutionInfo = context.ParseAssemblyInfo(assemblyInfoPath);
+
         if (!string.IsNullOrEmpty(solutionInfo.AssemblyFileVersion))
         {
             return solutionInfo.AssemblyFileVersion;
         }
+        
         throw new CakeException("Could not parse version.");
     }
 
