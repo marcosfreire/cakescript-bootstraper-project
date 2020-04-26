@@ -11,7 +11,7 @@ Teardown(context =>
     projectInfo.Paths.RemoveDirectories(Context);
 });
 
-#load "nuget:http://nexus.zarp.tech/repository/nuget-hosted?package=Zarp.DotNet.FullFramework.BuildScripts&version=1.0.1"
+#load "nuget:http://YOUR_NUGET_DNS/repository/nuget-hosted?package=YOUR_BUIL_SCRIPTS_PACKAGES"
 
 Task("Default")
     .IsDependentOn("echo")
