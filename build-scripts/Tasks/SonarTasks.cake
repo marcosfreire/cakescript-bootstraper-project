@@ -1,5 +1,4 @@
-Task("sonar-begin")
-//.WithCriteria(projectInfo.CurrentBuild.IsRunningOnJenkins)
+Task("sonar-begin").WithCriteria(projectInfo.CurrentBuild.IsRunningOnJenkins)
 .Does(() =>
 {
     var arguments = new ProcessArgumentBuilder()
