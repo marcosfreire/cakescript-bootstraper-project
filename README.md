@@ -20,4 +20,8 @@ git clone https://github.com/marcosfreire/cake-default-project.git
 .\build.ps1 -target YOUR_TARGET_HERE
 ```
 
+### Tips
+```
+You can download and copy the scripts to your project, or use it as your own nuget package. ( see branch nuget-packages for more info )
+```
 
